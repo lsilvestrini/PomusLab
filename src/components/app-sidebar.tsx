@@ -28,13 +28,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-// Separate Avatar component for better reusability
-const UserAvatar = ({ initials }: { initials: string }) => (
-  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-    <span className="text-sm font-bold text-primary-foreground">{initials}</span>
-  </div>
-)
-
 const data = {
   user: {
     name: "Lucas Silvestrini",
