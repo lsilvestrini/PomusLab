@@ -20,9 +20,9 @@ export default function Page() {
         {/* Introduction Card */}
         <Card className="p-6 backdrop-blur-sm border-muted">
           <CardContent className="space-y-4 p-2">
-            <h2 className="text-2xl font-semibold">Hi, I'm Luke 👋</h2>
+            <h2 className="text-2xl font-semibold">Hi, I&apos;m Luke 👋</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              I'm a passionate bussiness, marketing and tech developer focused on creating elegant solutions to complex problems. 
+              I&apos;m a passionate bussiness, marketing and tech developer focused on creating elegant solutions to complex problems. 
               With expertise in web development and a keen eye for design, I build modern applications 
               that make a difference.
             </p>

@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-
+import { ModeToggle } from "@/components/theme-toggle"
 export function NavSecondary({
   items,
   ...props
@@ -21,7 +21,8 @@ export function NavSecondary({
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
     <SidebarGroup {...props}>
-      <SidebarGroupContent>
+      <SidebarGroupContent> 
+   <ModeToggle />
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
@@ -34,7 +35,9 @@ export function NavSecondary({
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
+        
       </SidebarGroupContent>
+      
     </SidebarGroup>
   )
 }

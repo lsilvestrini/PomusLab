@@ -18,6 +18,8 @@ import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
+
+
 import {
   Sidebar,
   SidebarContent,
@@ -32,18 +34,18 @@ const data = {
   user: {
     name: "Lucas Silvestrini",
     email: "lucas.silvestrini@live.com",
-    avatar: <UserAvatar initials="LS" />
+    avatar:"LS"
   },
   navMain: [
     {
-      title: "Playground",
+      title: "About Me",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Dashboard",
+          url: "/dashboard",
         },
         {
           title: "Starred",
@@ -56,7 +58,7 @@ const data = {
       ],
     },
     {
-      title: "Models",
+      title: "Projects",
       url: "#",
       icon: Bot,
       items: [
@@ -75,7 +77,7 @@ const data = {
       ],
     },
     {
-      title: "Documentation",
+      title: "Dashboard",
       url: "#",
       icon: BookOpen,
       items: [
@@ -152,9 +154,15 @@ const data = {
   ],
 }
 
+
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar 
+      variant="inset" 
+      {...props}
+      role="navigation"
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -172,13 +180,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+      
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
+      
       <SidebarFooter>
-      <NavUser user={data.user as { name: string; email: string; avatar: React.ReactNode }} />
+        <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
   )
