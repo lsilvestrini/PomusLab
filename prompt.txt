@@ -1,0 +1,48 @@
+# Page Development Request
+
+## Framework & Technical Requirements
+- Next.js 14 App Router
+- TypeScript
+- Shadcn/ui components
+- Tailwind CSS
+- File location: app/(routes)/[page-name]/page.tsx
+- Use `export default function Page()` pattern
+- Required libraries: (e.g., framer-motion, lucide-react)
+
+## Component Structure
+Please structure the page using:
+- Default export pattern: `export default function Page()`
+- TypeScript interfaces for all props and data structures
+- Individual component functions (not arrow functions)
+- Proper type annotations
+
+## Design Requirements
+- Mobile responsive
+- Dark mode support
+- Modern UI with shadcn/ui components
+- Animations (if needed)
+- Color scheme: [specify colors]
+
+## Example Structure:
+```tsx
+import React from 'react';
+import { ComponentName } from "@/components/ui/component";
+
+interface DataType {
+  // Define interface properties
+}
+
+function SubComponent({ prop }: { prop: PropType }) {
+  return (
+    // Component JSX
+  );
+}
+
+export default function Page() {
+  return (
+    // Page JSX
+  );
+}
+
+
+

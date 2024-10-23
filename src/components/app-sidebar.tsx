@@ -1,34 +1,12 @@
 "use client"
 
 import * as React from "react"
-import {
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
-
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
-
-
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+import { BookOpen,  Bot,  Command,  Frame,  LifeBuoy,  Map,  PieChart,  Send,  Settings2,  SquareTerminal} from "lucide-react"
+import { Sidebar,  SidebarContent,  SidebarFooter,  SidebarHeader,  SidebarMenu,  SidebarMenuButton,  SidebarMenuItem,} from "@/components/ui/sidebar"
 
 const data = {
   user: {
@@ -39,7 +17,7 @@ const data = {
   navMain: [
     {
       title: "About Me",
-      url: "#",
+      url: "/",
       icon: SquareTerminal,
       isActive: true,
       items: [
@@ -48,30 +26,30 @@ const data = {
           url: "/trajectory",
         },
         {
-          title: "Dashboard",
+          title: "My Dashboard",
           url: "/dashboard",
         },
         {
-          title: "Settings",
-          url: "#",
+          title: "Connections",
+          url: "/connections",
         },
       ],
     },
     {
       title: "Projects",
-      url: "#",
+      url: "/projects",
       icon: Bot,
       items: [
         {
-          title: "Genesis",
+          title: "EduTech",
+          url: "/projects/edutech",
+        },
+        {
+          title: "Kind of Games",
           url: "#",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
+          title: "Fleet Management",
           url: "#",
         },
       ],
@@ -100,24 +78,24 @@ const data = {
       ],
     },
     {
-      title: "Settings",
-      url: "#",
+      title: "AI Applications",
+      url: "/ai-applications",
       icon: Settings2,
       items: [
         {
-          title: "General",
+          title: "Text Generation",
           url: "#",
         },
         {
-          title: "Team",
+          title: "Image Generation",
           url: "#",
         },
         {
-          title: "Billing",
+          title: "Bussiness Generation",
           url: "#",
         },
         {
-          title: "Limits",
+          title: "Game Generation",
           url: "#",
         },
       ],
@@ -153,8 +131,6 @@ const data = {
     },
   ],
 }
-
-
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (

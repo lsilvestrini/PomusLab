@@ -1,21 +1,53 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Separator } from "@/components/ui/separator";
 import { 
   Briefcase, 
   Code2, 
   Languages, 
   Wrench,
-  Star,
+  Building2,
+  CheckCircle2,
+  Calendar
 } from 'lucide-react';
+
+interface Skill {
+  name: string;
+  level: number;
+}
+
+interface Language {
+  name: string;
+  level: string;
+}
+
+interface TimelineItem {
+  period: string;
+  role: string;
+  company: string;
+  achievements: string[];
+}
 
 const skills = {
   technical: [
-    { name: "SQL", level: 60 },
-    { name: "PowerBI", level: 80 },
-    { name: "Node.js", level: 80 },
-    { name: "Python", level: 20 },
-    { name: "TypeScript", level: 85 }
+    { name: "PowerBI", level: 90 },
+    { name: "SQL", level: 70 },
+    { name: "Python", level: 30 },
+    { name: "Salesforce", level: 30 },
+    { name: "React/Node.js", level: 10 }
   ],
   languages: [
     { name: "Portuguese 🇧🇷", level: "Native" },
@@ -23,101 +55,184 @@ const skills = {
     { name: "Spanish 🇪🇸", level: "Intermediate" }
   ],
   tools: [
-    "Git", "Docker", "AWS", "VS Code", "Figma",
-    "Jira", "PostgreSQL", "MongoDB"
+    "Git", "Firebase", "PowerBI", "Salesforce", "Adobe Campaign",
+    "Jira", "Miro", "Hadoop", "Excel", "Tableau",
+    "Google Analytics", "Meta Ads", "Python", "SAS",
+    "SQL", "Adobe Campaign", "DaVinci Resolve", "Photoshop",
+    "Canva", "Midjourney", "Leonardo.ai"
   ]
 };
-
 const timeline = [
   {
-    year: "2023",
-    role: "Senior Software Engineer",
-    company: "Tech Innovation Labs",
+    period: "01/2023 - Present",
+    role: "Product Owner - Sales Ops & Growth Marketing",
+    company: "Stellantis Financial Services",
     achievements: [
-      "Led team of 5 developers",
-      "Reduced system latency by 40%",
-      "Implemented CI/CD pipeline"
+      "Data-driven decision making using analytics tools for campaign and sales operations performance",
+      "Development of strategic reports using PowerBI, Power Query and Excel",
+      "Cross-functional collaboration with sales, marketing, tech, legal, compliance, finance teams",
+      "Clear stakeholder communication presenting findings and strategic recommendations",
+      "Participation in agile ceremonies including sprint planning and retrospectives"
     ]
   },
   {
-    year: "2021",
-    role: "Full Stack Developer",
-    company: "Digital Solutions Inc",
+    period: "05/2022 - 01/2023",
+    role: "Product Owner - Credit Cards",
+    company: "Stellantis Financial Services",
     achievements: [
-      "Developed e-commerce platform",
-      "Improved API performance",
-      "Mentored junior developers"
+      "Managed Jeep Card, Ram Card and Stellantis Corporate Card products",
+      "Developed complex launch strategies and lifecycle with personalized customer communications",
+      "Implemented data-driven marketing strategies using PowerBI and Salesforce Marketing Cloud",
+      "Established strategic partnerships to enhance product offerings",
+      "Collaborated on UX/UI development for applications and websites",
+      "Prepared performance reports for board committees",
+      "Designed credit cards and welcome kits aligned with brand guidelines",
+      "Conducted sales team training on card features and benefits",
+      "Implemented processes compliant with Central Bank standards"
     ]
   },
   {
-    year: "2019",
-    role: "Frontend Developer",
-    company: "WebCraft Studios",
+    period: "07/2021 - 02/2022",
+    role: "Business Analyst - Credit Cards & CRM",
+    company: "Itaú Unibanco",
     achievements: [
-      "Built responsive web applications",
-      "Implemented design systems",
-      "Optimized site performance"
+      "Created marketing strategies for co-branded cards (Players Bank, Click, Azul, Latam, Samsung, etc.)",
+      "Structured and managed new card product launches",
+      "Developed strategic partnerships to enhance market reach",
+      "Executed large-scale omnichannel campaigns across social media, chatbot, email, and voice",
+      "Created service channels including call center training materials",
+      "Conducted data analysis and prepared executive reports",
+      "Managed projects using agile methodologies",
+      "Monitored legal aspects of data usage and industry compliance",
+      "Planned and executed lifecycle campaigns using SAS, SQL, Hadoop, and other tools"
+    ]
+  },
+  {
+    period: "01/2020 - 07/2021",
+    role: "Business Analyst - Co-Branded Cards",
+    company: "Itaú Unibanco",
+    achievements: [
+      "Developed customer communication strategies focusing on optimal timing and channels",
+      "Created and executed omnichannel marketing campaigns across social media, chatbot, and traditional channels",
+      "Prepared and presented weekly reports in Superintendence meetings",
+      "Developed projects collaborating with internal teams and external companies",
+      "Applied statistical models for channel segmentation and campaign performance monitoring",
+      "Created and monitored business indicators and marketing KPIs",
+      "Prepared and presented executive committees",
+      "Conducted product pricing analysis and campaign optimization",
+      "Participated in Climate team promoting workplace diversity and team harmony",
+      "Led product meetings with Mastercard, Visa and partners",
+      "Utilized tools: SAS, SQL, Hadoop, Google Analytics, PowerBI, Miro, Jira"
+    ]
+  },
+  {
+    period: "04/2018 - 01/2020",
+    role: "CRM Analyst - Credit Cards",
+    company: "Itaú Unibanco",
+    achievements: [
+      "Conducted feasibility studies for relationship, engagement and acquisition campaigns",
+      "Created and analyzed large-scale databases with millions of records",
+      "Planned and executed structured lifecycle campaigns across multiple channels",
+      "Managed social media, emails, direct mail, SMS and push notification campaigns",
+      "Monitored campaign performance indicators and KPIs",
+      "Performed Web Analytics",
+      "Mastered tools: SAS, SQL, Hadoop, SAS CI, Adobe Campaign, Google Ads and Facebook Ads"
     ]
   }
 ];
 
-const SkillBar = ({ name, level }: { name: string, level: number }) => (
-  <div className="space-y-2">
-    <div className="flex justify-between">
-      <span className="text-sm font-medium">{name}</span>
-      <span className="text-sm text-muted-foreground">{level}%</span>
+function SkillBar({ name, level }: Skill) {
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between">
+        <span className="text-sm font-medium">{name}</span>
+        <span className="text-sm text-muted-foreground dark:text-gray-300">{level}%</span>
+      </div>
+      <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+        <div 
+          className="h-2 bg-blue-500 rounded-full transition-all duration-500 ease-in-out"
+          style={{ width: `${level}%` }}
+        />
+      </div>
     </div>
-    <div className="h-2 bg-gray-200 rounded-full">
-      <div 
-        className="h-2 bg-blue-500 rounded-full"
-        style={{ width: `${level}%` }}
-      />
-    </div>
-  </div>
-);
+  );
+}
+function TimelineItem({ item, index }: { item: typeof timeline[0], index: string }) {
+  return (
+    <AccordionItem value={index} className="border-none">
+      <AccordionTrigger className="hover:no-underline">
+        <div className="flex flex-col gap-2 text-left">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-blue-500" />
+            <span className="text-sm text-muted-foreground">{item.period}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Building2 className="h-4 w-4 text-blue-500" />
+            <h3 className="font-semibold text-lg">{item.company}</h3>
+          </div>
+          <p className="text-base font-medium text-blue-600 dark:text-blue-400">{item.role}</p>
+        </div>
+      </AccordionTrigger>
+      <AccordionContent className="pt-4">
+        <Card className="border-none shadow-none">
+          <CardContent className="p-0">
+            <ul className="space-y-3">
+              {item.achievements.map((achievement, i) => (
+                <li key={i} className="flex items-start gap-2 group">
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mt-1 flex-shrink-0 group-hover:text-green-600 transition-colors duration-200" />
+                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-200">
+                    {achievement}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      </AccordionContent>
+    </AccordionItem>
+  );
+}
+
 
 export default function ProfessionalTrajectory() {
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold">About Me</h1>
-      
-      {/* Timeline Section */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <Briefcase className="h-5 w-5 text-blue-500" />
-            <CardTitle>Professional Timeline</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="relative space-y-8">
-            <div className="absolute left-9 top-0 bottom-0 w-px bg-gray-200" />
-            {timeline.map((item, index) => (
-              <div key={index} className="relative flex gap-6">
-                <div className="flex items-center justify-center w-20">
-                  <Badge variant="outline" className="z-10">
-                    {item.year}
-                  </Badge>
-                </div>
-                <div className="flex-1 space-y-2">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-semibold">{item.role}</h3>
-                    <p className="text-sm text-muted-foreground">{item.company}</p>
-                    <ul className="mt-2 space-y-1">
-                      {item.achievements.map((achievement, i) => (
-                        <li key={i} className="text-sm flex items-center gap-2">
-                          <Star className="h-3 w-3 text-yellow-500" />
-                          {achievement}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+    <div className="container mx-auto max-w-4xl p-6 space-y-8">
+      <div className="space-y-2">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Lucas Silvestrini
+        </h1>
+        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+          Product Owner & Business Growth
+        </h2>
+      </div>
+
+      <div className="space-y-8">
+        <div>
+          <h2 className="scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
+            Professional Experience
+          </h2>
+          <p className="text-muted-foreground">
+            Click on each role to see detailed responsibilities and achievements
+          </p>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Briefcase className="h-5 w-5 text-blue-500" />
+              <CardTitle>Career Timeline</CardTitle>
+              <CardDescription>Over 5 years of experience in Product & Business</CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full space-y-6">
+              {timeline.map((item, index) => (
+                <TimelineItem key={index} item={item} index={index.toString()} />
+              ))}
+            </Accordion>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Skills Section */}
       <div className="grid gap-6 md:grid-cols-2">
@@ -147,10 +262,10 @@ export default function ProfessionalTrajectory() {
               {skills.languages.map((language, index) => (
                 <div 
                   key={index}
-                  className="p-4 bg-gray-50 rounded-lg text-center"
+                  className="p-4 bg-gray-50 rounded-lg text-center dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow duration-200"
                 >
                   <h3 className="font-medium">{language.name}</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground dark:text-gray-300">
                     {language.level}
                   </p>
                 </div>
@@ -174,7 +289,7 @@ export default function ProfessionalTrajectory() {
               <Badge 
                 key={index}
                 variant="secondary"
-                className="px-3 py-1"
+                className="px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 cursor-default"
               >
                 {tool}
               </Badge>
