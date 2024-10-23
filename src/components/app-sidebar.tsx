@@ -44,12 +44,12 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "Dashboard",
-          url: "/dashboard",
+          title: "🚀 Trajectory",
+          url: "/trajectory",
         },
         {
-          title: "Starred",
-          url: "#",
+          title: "Dashboard",
+          url: "/dashboard",
         },
         {
           title: "Settings",
