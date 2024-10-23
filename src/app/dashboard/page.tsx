@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react'
+import { formatDate } from "@/utils/date"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { 
   Code2, 
@@ -10,7 +11,9 @@ import {
   Users,
   Activity,
   Languages,
-  History
+  History,
+  BarChart2,
+  Terminal
 } from 'lucide-react'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -33,15 +36,25 @@ interface GitHubStats {
 export default function DashboardContent() {
   const [stats, setStats] = useState<GitHubStats | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const response = await fetch('/api/github-stats') // You'll need to create this API route
+        setLoading(true)
+        const response = await fetch('/api/github-stats')
+        
+        if (!response.ok) {
+          const errorData = await response.json()
+          throw new Error(errorData.error || 'Failed to fetch GitHub stats')
+        }
+        
         const data = await response.json()
         setStats(data)
+        setError(null)
       } catch (error) {
         console.error('Error fetching GitHub stats:', error)
+        setError(error instanceof Error ? error.message : 'Failed to fetch GitHub stats')
       } finally {
         setLoading(false)
       }
@@ -50,32 +63,36 @@ export default function DashboardContent() {
     fetchStats()
   }, [])
 
-  function formatDate(date: string) {
-    return new Date(date).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    })
+  if (error) {
+    return (
+      <div className="flex-1 p-8">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
+          <h3 className="text-lg font-medium">Error Loading GitHub Data</h3>
+          <p>{error}</p>
+        </div>
+      </div>
+    )
   }
-
   return (
     <div className="flex-1 space-y-6 p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">GitHub Dashboard</h2>
-        <div className="flex items-center space-x-2">
-          <a 
-            href={`https://github.com/${stats?.profile.login}`}
-            target="_blank" 
-            rel="noopener noreferrer"
-          >
-            <Button variant="outline" size="sm">
-              <Github className="mr-2 h-4 w-4" />
-              View Profile
-            </Button>
-          </a>
-        </div>
+        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+        {stats?.profile && (
+          <div className="flex items-center space-x-2">
+            <a 
+              href={`https://github.com/${stats.profile.login}`}
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <Button variant="outline" size="sm">
+                <Github className="mr-2 h-4 w-4" />
+                View Profile
+              </Button>
+            </a>
+          </div>
+        )}
       </div>
-
+      
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {/* Key Metrics */}
         <Card>
