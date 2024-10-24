@@ -1,169 +1,146 @@
-import React from 'react'
+import React from 'react';
+import { motion } from "framer-motion";
 import {
   Card,
   CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-} from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ExternalLink, Github } from "lucide-react"
-import { motion } from "framer-motion"
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ExternalLink, Github } from "lucide-react";
 
 interface Project {
-  title: string
-  description: string
-  tags: string[]
-  links: {
-    github: string
-    live: string
-  }
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  tags: string[];
+  link: string;
+  githubLink?: string;
 }
 
+// Example data
 const projects: Project[] = [
   {
-    title: 'Project 1',
-    description: 'Description for project 1',
-    tags: ['React', 'TypeScript', 'Tailwind'],
-    links: {
-      github: '#',
-      live: '#'
-    }
+    id: "1",
+    title: "Pomus App",
+    description: "An application to help users organize topics, subtopics, and create structured knowledge trees for better study management.",
+    imageUrl: "/api/placeholder/600/400",
+    tags: ["React", "Node.js", "TypeScript", "Tailwind"],
+    link: "https://pomus.app",
+    githubLink: "https://github.com/username/pomus"
   },
   {
-    title: 'Project 2',
-    description: 'Description for project 2',
-    tags: ['Next.js', 'Firebase', 'shadcn/ui'],
-    links: {
-      github: '#',
-      live: '#'
-    }
+    id: "2",
+    title: "Saúde Inteligente",
+    description: "Health metrics visualization app with direct nutritionist monitoring for diet and training tracking.",
+    imageUrl: "/api/placeholder/600/400",
+    tags: ["React Native", "Firebase", "Express"],
+    link: "https://saude.app"
   },
   {
-    title: 'Project 3',
-    description: 'Description for project 3',
-    tags: ['React Native', 'Redux', 'Node.js'],
-    links: {
-      github: '#',
-      live: '#'
-    }
+    id: "3",
+    title: "Braza Royale",
+    description: "A strategic board game based on Battle Royale games like Fortnite, combining strategy and fun.",
+    imageUrl: "/api/placeholder/600/400",
+    tags: ["Game Design", "Strategy", "Board Game"],
+    link: "https://braza.game"
   },
-  {
-    title: 'Project 4',
-    description: 'Description for project 4',
-    tags: ['Vue.js', 'GraphQL', 'MongoDB'],
-    links: {
-      github: '#',
-      live: '#'
-    }
-  },
-  {
-    title: 'Project 5',
-    description: 'Description for project 5',
-    tags: ['Angular', 'TypeScript', 'AWS'],
-    links: {
-      github: '#',
-      live: '#'
-    }
-  },
-  {
-    title: 'Project 6',
-    description: 'Description for project 6',
-    tags: ['Python', 'Django', 'PostgreSQL'],
-    links: {
-      github: '#',
-      live: '#'
-    }
-  },
-]
+];
 
-interface ProjectCardProps {
-  project: Project
-  index: number
-}
-
-function ProjectCard({ project, index }: ProjectCardProps) {
+function ProjectCard({ project }: { project: Project }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
     >
-      <Card className="group h-full overflow-hidden transition-all duration-300 hover:shadow-lg">
-        <CardHeader>
-          <div className="w-full h-48 bg-gradient-to-br from-purple-400 to-pink-500 rounded-t-lg" />
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <CardTitle className="text-2xl font-bold transition-colors group-hover:text-purple-600">
-            {project.title}
-          </CardTitle>
-          <CardDescription className="text-gray-600 dark:text-gray-400">
+      <Card className="group overflow-hidden relative h-full flex flex-col hover:shadow-xl transition-shadow duration-300">
+        <motion.div
+          className="relative h-48 overflow-hidden"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.3 }}
+        >
+          <img
+            src={project.imageUrl}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </motion.div>
+
+        <CardHeader className="flex flex-col items-center text-center">
+          <CardTitle className="text-2xl font-bold">{project.title}</CardTitle>
+          <CardDescription className="mt-2">
             {project.description}
           </CardDescription>
-          <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag, idx) => (
+        </CardHeader>
+
+        <CardContent className="flex-grow flex flex-col items-center">
+          <div className="flex flex-wrap gap-2 justify-center mt-4">
+            {project.tags.map((tag) => (
               <Badge
-                key={idx}
+                key={tag}
                 variant="secondary"
-                className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100"
+                className="px-3 py-1 hover:bg-primary/10 transition-colors duration-200"
               >
                 {tag}
               </Badge>
             ))}
           </div>
-          <div className="flex gap-2 pt-4">
+        </CardContent>
+
+        <CardFooter className="flex gap-2 justify-center pb-6">
+          <Button
+            variant="default"
+            className="gap-2"
+            onClick={() => window.open(project.link, '_blank')}
+          >
+            <ExternalLink className="h-4 w-4" />
+            Visit Project
+          </Button>
+          {project.githubLink && (
             <Button
               variant="outline"
-              size="sm"
-              className="group/button"
-              asChild
+              className="gap-2"
+              onClick={() => window.open(project.githubLink, '_blank')}
             >
-              <a href={project.links.github} target="_blank" rel="noopener noreferrer">
-                <Github className="w-4 h-4 mr-2 transition-transform group-hover/button:scale-110" />
-                Code
-              </a>
+              <Github className="h-4 w-4" />
+              View Code
             </Button>
-            <Button
-              size="sm"
-              className="group/button"
-              asChild
-            >
-              <a href={project.links.live} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="w-4 h-4 mr-2 transition-transform group-hover/button:scale-110" />
-                Live Demo
-              </a>
-            </Button>
-          </div>
-        </CardContent>
+          )}
+        </CardFooter>
       </Card>
     </motion.div>
-  )
+  );
 }
 
-export default function Page() {
+export default function ProjectsGrid() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-purple-50 dark:from-gray-900 dark:to-gray-800 py-16">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-            My Projects
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
-            Explore my latest works and personal projects. Each project represents a unique challenge and learning experience.
-          </p>
-        </motion.div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} />
-          ))}
-        </div>
+    <div className="container mx-auto px-4 py-12">
+      <div className="space-y-4 text-center mb-12">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Projects
+        </h1>
+        <p className="text-xl text-muted-foreground">
+          Explore my latest works and side projects
+        </p>
       </div>
+
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {projects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </motion.div>
     </div>
-  )
+  );
 }
